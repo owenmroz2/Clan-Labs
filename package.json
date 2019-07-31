@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
   "name": "clanlabsv2-opensourced",
   "version": "1.0.0",
   "description": "",
@@ -6,6 +7,12 @@
   "directories": {
     "example": "example"
   },
+=======
+  "name": "example",
+  "version": "1.0.0",
+  "description": "",
+  "main": "code.js",
+>>>>>>> a2cc6a942f9efa2e6abe04b50334830cba17d06b
   "dependencies": {
     "bloxy": "^2.9.9964",
     "discord.js": "^11.5.1",
