@@ -8,7 +8,6 @@
 <p>The following Streamable video links will show you how to setup your own bot!</p>
 <ul>
   <li><a href="https://streamable.com/wbz79">Initial Setup</a></li>
-  <li><a href="https://github.com/nishi7409/ClanLabs-OpenSourced">Downloading Programs</a></li>
   <li><a href="https://github.com/nishi7409/ClanLabs-OpenSourced">Installing Packages</a></li>
   <li><a href="https://github.com/nishi7409/ClanLabs-OpenSourced">Configuring JSON File</a></li>
   <li><a href="https://github.com/nishi7409/ClanLabs-OpenSourced">Initial Owner Setup</a></li>
