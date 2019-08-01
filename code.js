@@ -196,7 +196,7 @@ bot.on('message', async message => {
 
                   if ((Number(currentRankID) === Number(bodyRolesRankNum)) && (currentXP < requiredXPAtCurrentRankID)){
                     console.log('demoted')
-                    var rblxUsername = rbx.getUsernameFromId(userID)
+                    var rblxUsername = await rbx.getUsernameFromId(userID)
                     var embed = new Discord.RichEmbed()
                     .setColor(0xeb4034)
                     .setDescription(`Unfortunately, [${rblxUsername}](https://www.roblox.com/users/${userID}/profile) has been demoted because [${rblxUsername}](https://www.roblox.com/users/${userID}/profile)'s XP was less than the required amount of XP for the rank of **\`${body.roles[i].name}\` (requiredXPAtCurrentRankID)** `)
@@ -222,7 +222,7 @@ bot.on('message', async message => {
                     var { body } = await snekfetch.get(`${config.fireBaseURL}/roles/${bodyRolesRankNumber}.json`);
                     if ((Number(body.requiredXP) !== Number(0)) && (currentXP >= body.requiredXP)){
                       console.log('promoted')
-                      var rblxUsername = rbx.getUsernameFromId(userID)
+                      var rblxUsername = await rbx.getUsernameFromId(userID)
                       var embed = new Discord.RichEmbed()
                       .setColor(0x26ff93)
                       .setDescription(`[${rblxUsername}](https://www.roblox.com/users/${userID}/profile) has been promoted!`)
@@ -313,7 +313,7 @@ bot.on('message', async message => {
 
                   if ((Number(currentRankID) === Number(bodyRolesRankNum)) && (currentXP < requiredXPAtCurrentRankID)){
                     console.log('demoted')
-                    var rblxUsername = rbx.getUsernameFromId(userID)
+                    var rblxUsername = await rbx.getUsernameFromId(userID)
                     var embed = new Discord.RichEmbed()
                     .setColor(0xeb4034)
                     .setDescription(`Unfortunately, [${rblxUsername}](https://www.roblox.com/users/${userID}/profile) has been demoted because [${rblxUsername}](https://www.roblox.com/users/${userID}/profile)'s XP was less than the required amount of XP for the rank of **\`${body.roles[i].name}\` (requiredXPAtCurrentRankID)** `)
@@ -339,7 +339,7 @@ bot.on('message', async message => {
                     var { body } = await snekfetch.get(`${config.fireBaseURL}/roles/${bodyRolesRankNumber}.json`);
                     if ((Number(body.requiredXP) !== Number(0)) && (currentXP >= body.requiredXP)){
                       console.log('promoted')
-                      var rblxUsername = rbx.getUsernameFromId(userID)
+                      var rblxUsername = await rbx.getUsernameFromId(userID)
                       var embed = new Discord.RichEmbed()
                       .setColor(0x26ff93)
                       .setDescription(`[${rblxUsername}](https://www.roblox.com/users/${userID}/profile) has been promoted!`)
