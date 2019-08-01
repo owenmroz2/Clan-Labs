@@ -182,6 +182,8 @@ bot.on('message', async message => {
                 var {body} = await snekfetch.get(`https://groups.roblox.com/v1/groups/${config.groupID}/roles`)
 
                 for (i = body.roles.length-1; i > 0; i--){
+                  console.log(i)
+                  var {body} = await snekfetch.get(`https://groups.roblox.com/v1/groups/${config.groupID}/roles`)
                   var currentRankID = await rbx.getRankInGroup(config.groupID, userID)
                   var bodyRolesRankNum = body.roles[i].rank
 
@@ -189,14 +191,23 @@ bot.on('message', async message => {
                   var currentXP = body.xpValue
 
                   var { body } = await snekfetch.get(`${config.fireBaseURL}/roles/${currentRankID}.json`);
+
                   var requiredXPAtCurrentRankID = body.requiredXP
 
                   if ((Number(currentRankID) === Number(bodyRolesRankNum)) && (currentXP < requiredXPAtCurrentRankID)){
-                    bloxyClient.demote(Number(userID))
+                    console.log('demoted')
+                    await groupFunction.demote(Number(userID))
+                    break
                   }
                 }
 
+                var {body} = await snekfetch.get(`https://groups.roblox.com/v1/groups/${config.groupID}/roles`)
+
+
                 for (i = 1; i < body.roles.length-1; i++){
+                  console.log(i)
+                  var {body} = await snekfetch.get(`https://groups.roblox.com/v1/groups/${config.groupID}/roles`)
+
                   if (body.roles[i].rank === Number(currentRankID)){
                     var bodyRolesRankNumber = body.roles[i+1].rank;
 
@@ -205,8 +216,10 @@ bot.on('message', async message => {
 
                     var { body } = await snekfetch.get(`${config.fireBaseURL}/roles/${bodyRolesRankNumber}.json`);
                     if ((Number(body.requiredXP) !== Number(0)) && (currentXP >= body.requiredXP)){
-                      bloxyClient.promote(Number(userID));
+                      console.log('promoted')
+                      await groupFunction.promote(Number(userID));
                     }
+                    break
                   }
                 }
               }
@@ -276,21 +289,32 @@ bot.on('message', async message => {
                 var {body} = await snekfetch.get(`https://groups.roblox.com/v1/groups/${config.groupID}/roles`)
 
                 for (i = body.roles.length-1; i > 0; i--){
+                  console.log(i)
+                  var {body} = await snekfetch.get(`https://groups.roblox.com/v1/groups/${config.groupID}/roles`)
                   var currentRankID = await rbx.getRankInGroup(config.groupID, userID)
                   var bodyRolesRankNum = body.roles[i].rank
 
-                  var {body} = await snekfetch.get(`/${userID}`)
+                  var {body} = await snekfetch.get(`${config.fireBaseURL}/xpData/users/${userID}.json`)
                   var currentXP = body.xpValue
 
                   var { body } = await snekfetch.get(`${config.fireBaseURL}/roles/${currentRankID}.json`);
+
                   var requiredXPAtCurrentRankID = body.requiredXP
 
                   if ((Number(currentRankID) === Number(bodyRolesRankNum)) && (currentXP < requiredXPAtCurrentRankID)){
-                    bloxyClient.demote(Number(userID))
+                    console.log('demoted')
+                    await groupFunction.demote(Number(userID))
+                    break
                   }
                 }
 
+                var {body} = await snekfetch.get(`https://groups.roblox.com/v1/groups/${config.groupID}/roles`)
+
+
                 for (i = 1; i < body.roles.length-1; i++){
+                  console.log(i)
+                  var {body} = await snekfetch.get(`https://groups.roblox.com/v1/groups/${config.groupID}/roles`)
+
                   if (body.roles[i].rank === Number(currentRankID)){
                     var bodyRolesRankNumber = body.roles[i+1].rank;
 
@@ -299,8 +323,10 @@ bot.on('message', async message => {
 
                     var { body } = await snekfetch.get(`${config.fireBaseURL}/roles/${bodyRolesRankNumber}.json`);
                     if ((Number(body.requiredXP) !== Number(0)) && (currentXP >= body.requiredXP)){
-                      bloxyClient.promote(Number(userID));
+                      console.log('promoted')
+                      await groupFunction.promote(Number(userID));
                     }
+                    break
                   }
                 }
               }
