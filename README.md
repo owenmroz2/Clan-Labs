@@ -3,7 +3,9 @@
 
 Clan Labs' features are pretty neat; however, I don't like to see a community <i>suffer</i> by paying for services that should honestly be open sourced for the entire community. There are other clients that can do the same things as Clan Labs for absoultely free, but you can't see their source code--which sucks.  <strong>So here I am, recreating Clan Labs, for free!</strong>  🙃
 </p>
-
+<hr>
+<h1>Questions</h1>
+<p>You can either create an issue or you can join this repository's official support Discord server @ https://discord.gg/fHpfmy5</p>
 <hr>
 
 <h1> Tutorial </h1>
