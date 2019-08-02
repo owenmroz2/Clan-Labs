@@ -556,15 +556,15 @@ bot.on('message', async message => {
   if (message.content.toLowerCase().startsWith(`${config.prefix}code`) || message.content.toLowerCase().startsWith(`${config.prefix}link`) || message.content.toLowerCase().startsWith(`${config.prefix}tutorial`)){
     var embed = new Discord.RichEmbed()
       .setColor(0xff3636)
-      .setDescription(`**[Video Tutorial](https://www.google.com)**`)
+      .setDescription(`**[Video Tutorial](https://www.github.com/nishi7409/ClanLabsV2-OpenSourced/wiki/Tutorial)**`)
     await message.channel.send(embed)
     var embed = new Discord.RichEmbed()
       .setColor(0x3072ff)
-      .setDescription(`**[Source Code](https://www.github.com)**`)
+      .setDescription(`**[Source Code](https://www.github.com/nishi7409/ClanLabsV2-OpenSourced)**`)
     await message.channel.send(embed)
     var embed = new Discord.RichEmbed()
       .setColor(0x1cff8e)
-      .setDescription(`This project was developed by [Nishant Srivastava](https://www.github.com/nishi7409).\n__The goal of the project was to provide users with a free service of which they can customize and add on to rather than going to a paid service.__`)
+      .setDescription(`This project was developed by [Nishant Srivastava](https://www.github.com/nishi7409).\n\nThe goal of the project was to provide users with a free service which they can customize and add on to rather than going through a paid service route.`)
     return message.channel.send(embed)
   }
 
