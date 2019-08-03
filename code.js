@@ -11,8 +11,11 @@ const bloxy = require('bloxy');
 const bloxyClient = new bloxy({
   cookie: `${config.rblxCookie}`
 })
-var firebase = require("firebase");
-var firebaseConfig = {
+bloxyClient.login().then(function() {
+  console.log("Logged in on ROBLOX")
+});
+const firebase = require("firebase");
+const firebaseConfig = {
     databaseURL: `${config.fireBaseURL}`,
   };
 firebase.initializeApp(firebaseConfig)
@@ -32,6 +35,7 @@ bot.on('message', async message => {
   const verificationCode = ['apple', 'rain', 'dog', 'cat', 'food','yum','pizza','raindrop','snow','birthday','cake','burger','soda','ice','no','yes','orange','pear','plum'];
   const promoLogs = bot.channels.get(`${config.xpAuditLogChannelID}`)
   const officerRole = message.guild.roles.find(role => role.name === `${config.officerRole}`);
+  const groupFunction = await bloxyClient.getGroup(config.groupID)
 
 
   if (message.author.bot) return;
@@ -449,7 +453,7 @@ bot.on('message', async message => {
       var usernameHeader = `[${args[1].toLowerCase()}](https://www.roblox.com/users/${userID}/profile)`
       var currentRankAndPoints;
       var currentRankName;
-
+      var nextRankName;
 
       var {body} = await snekfetch.get(`https://groups.roblox.com/v1/groups/${config.groupID}/roles`)
       console.log(`errors here1`)
@@ -458,6 +462,7 @@ bot.on('message', async message => {
           if (body.roles[i].rank === currentRankID){
             currentRankName = body.roles[i].name
             nextRankNumber = body.roles[i+1].rank
+            nextRankName = body.roles[i+1].name
             var {body} = await snekfetch.get(`${config.fireBaseURL}/xpData/users/${userID}.json`)
             currentRankAndPoints = `**${currentRankName} - Currently has ${body.xpValue} XP**`
             var {body} = await snekfetch.get(`${config.fireBaseURL}/roles/${nextRankNumber}.json`)
@@ -470,10 +475,12 @@ bot.on('message', async message => {
         var {body} = await snekfetch.get(`${config.fireBaseURL}/xpData/users/${userID}.json`)
         currentRankAndPoints = `**${currentRankName} - Currently has ${body.xpValue} XP**`
         requiredXP = 0
+        nextRankName = "??"
       }else{
         currentRankName = "Guest"
         currentRankAndPoints = `**${currentRankName} - Currently has 0 XP**`
         requiredXP = 0
+        nextRankName = `[Join Group](https://www.roblox.com/groups/${config.groupID})`
       }
 
 
@@ -511,11 +518,11 @@ bot.on('message', async message => {
         percentBar = ":white_large_square: :white_large_square: :white_large_square: :white_large_square: :white_large_square: :white_large_square: :white_large_square: :white_large_square: :white_large_square: :white_large_square:"
       }
       var remainingErrorNumber = Number(requiredXP-Number(currentXP))
-      if (remainingErrorNumber < 0){
+      if ((remainingErrorNumber < 0) || (remainingErrorNumber === 0)){
         remainingErrorNumber = "Due 4 Promotion";
       }
 
-      var remainingError = `**${remainingErrorNumber}** XP remaining for **${currentRankName} (${requiredXP} XP)**`
+      var remainingError = `**${remainingErrorNumber}** XP remaining for **${nextRankName} (${requiredXP} XP)**`
 
 
       var response = new Discord.RichEmbed()
@@ -556,15 +563,15 @@ bot.on('message', async message => {
   if (message.content.toLowerCase().startsWith(`${config.prefix}code`) || message.content.toLowerCase().startsWith(`${config.prefix}link`) || message.content.toLowerCase().startsWith(`${config.prefix}tutorial`)){
     var embed = new Discord.RichEmbed()
       .setColor(0xff3636)
-      .setDescription(`**[Video Tutorial](https://www.github.com/nishi7409/ClanLabsV2-OpenSourced/wiki/Tutorial)**`)
+      .setDescription(`**[Video Tutorial](https://www.google.com)**`)
     await message.channel.send(embed)
     var embed = new Discord.RichEmbed()
       .setColor(0x3072ff)
-      .setDescription(`**[Source Code](https://www.github.com/nishi7409/ClanLabsV2-OpenSourced)**`)
+      .setDescription(`**[Source Code](https://www.github.com)**`)
     await message.channel.send(embed)
     var embed = new Discord.RichEmbed()
       .setColor(0x1cff8e)
-      .setDescription(`This project was developed by [Nishant Srivastava](https://www.github.com/nishi7409).\n\nThe goal of the project was to provide users with a free service which they can customize and add on to rather than going through a paid service route.`)
+      .setDescription(`This project was developed by [Nishant Srivastava](https://www.github.com/nishi7409).\n__The goal of the project was to provide users with a free service of which they can customize and add on to rather than going to a paid service.__`)
     return message.channel.send(embed)
   }
 

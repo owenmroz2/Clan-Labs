@@ -11,8 +11,11 @@ const bloxy = require('bloxy');
 const bloxyClient = new bloxy({
   cookie: `${config.rblxCookie}`
 })
-var firebase = require("firebase");
-var firebaseConfig = {
+bloxyClient.login().then(function() {
+  console.log("Logged in on ROBLOX")
+});
+const firebase = require("firebase");
+const firebaseConfig = {
     databaseURL: `${config.fireBaseURL}`,
   };
 firebase.initializeApp(firebaseConfig)
@@ -32,6 +35,7 @@ bot.on('message', async message => {
   const verificationCode = ['apple', 'rain', 'dog', 'cat', 'food','yum','pizza','raindrop','snow','birthday','cake','burger','soda','ice','no','yes','orange','pear','plum'];
   const promoLogs = bot.channels.get(`${config.xpAuditLogChannelID}`)
   const officerRole = message.guild.roles.find(role => role.name === `${config.officerRole}`);
+  const groupFunction = await bloxyClient.getGroup(config.groupID)
 
 
   if (message.author.bot) return;
@@ -196,6 +200,11 @@ bot.on('message', async message => {
 
                   if ((Number(currentRankID) === Number(bodyRolesRankNum)) && (currentXP < requiredXPAtCurrentRankID)){
                     console.log('demoted')
+                    var rblxUsername = await rbx.getUsernameFromId(userID)
+                    var embed = new Discord.RichEmbed()
+                    .setColor(0xeb4034)
+                    .setDescription(`Unfortunately, [${rblxUsername}](https://www.roblox.com/users/${userID}/profile) has been demoted because [${rblxUsername}](https://www.roblox.com/users/${userID}/profile)'s XP was less than the required amount of XP for the rank of **\`${body.roles[i].name}\` (requiredXPAtCurrentRankID)** `)
+                    await message.channel.send(embed)
                     await groupFunction.demote(Number(userID))
                     break
                   }
@@ -217,6 +226,11 @@ bot.on('message', async message => {
                     var { body } = await snekfetch.get(`${config.fireBaseURL}/roles/${bodyRolesRankNumber}.json`);
                     if ((Number(body.requiredXP) !== Number(0)) && (currentXP >= body.requiredXP)){
                       console.log('promoted')
+                      var rblxUsername = await rbx.getUsernameFromId(userID)
+                      var embed = new Discord.RichEmbed()
+                      .setColor(0x26ff93)
+                      .setDescription(`[${rblxUsername}](https://www.roblox.com/users/${userID}/profile) has been promoted!`)
+                      await message.channel.send(embed)
                       await groupFunction.promote(Number(userID));
                     }
                     break
@@ -303,6 +317,11 @@ bot.on('message', async message => {
 
                   if ((Number(currentRankID) === Number(bodyRolesRankNum)) && (currentXP < requiredXPAtCurrentRankID)){
                     console.log('demoted')
+                    var rblxUsername = await rbx.getUsernameFromId(userID)
+                    var embed = new Discord.RichEmbed()
+                    .setColor(0xeb4034)
+                    .setDescription(`Unfortunately, [${rblxUsername}](https://www.roblox.com/users/${userID}/profile) has been demoted because [${rblxUsername}](https://www.roblox.com/users/${userID}/profile)'s XP was less than the required amount of XP for the rank of **\`${body.roles[i].name}\` (requiredXPAtCurrentRankID)** `)
+                    await message.channel.send(embed)
                     await groupFunction.demote(Number(userID))
                     break
                   }
@@ -324,6 +343,11 @@ bot.on('message', async message => {
                     var { body } = await snekfetch.get(`${config.fireBaseURL}/roles/${bodyRolesRankNumber}.json`);
                     if ((Number(body.requiredXP) !== Number(0)) && (currentXP >= body.requiredXP)){
                       console.log('promoted')
+                      var rblxUsername = await rbx.getUsernameFromId(userID)
+                      var embed = new Discord.RichEmbed()
+                      .setColor(0x26ff93)
+                      .setDescription(`[${rblxUsername}](https://www.roblox.com/users/${userID}/profile) has been promoted!`)
+                      await message.channel.send(embed)
                       await groupFunction.promote(Number(userID));
                     }
                     break
@@ -336,7 +360,6 @@ bot.on('message', async message => {
       }
     }
   }
-
 
   if (message.content.toLowerCase().startsWith(`${config.prefix}setup`)){
     if (message.author.id !== message.guild.owner.id){
@@ -430,7 +453,7 @@ bot.on('message', async message => {
       var usernameHeader = `[${args[1].toLowerCase()}](https://www.roblox.com/users/${userID}/profile)`
       var currentRankAndPoints;
       var currentRankName;
-
+      var nextRankName;
 
       var {body} = await snekfetch.get(`https://groups.roblox.com/v1/groups/${config.groupID}/roles`)
       console.log(`errors here1`)
@@ -439,6 +462,7 @@ bot.on('message', async message => {
           if (body.roles[i].rank === currentRankID){
             currentRankName = body.roles[i].name
             nextRankNumber = body.roles[i+1].rank
+            nextRankName = body.roles[i+1].name
             var {body} = await snekfetch.get(`${config.fireBaseURL}/xpData/users/${userID}.json`)
             currentRankAndPoints = `**${currentRankName} - Currently has ${body.xpValue} XP**`
             var {body} = await snekfetch.get(`${config.fireBaseURL}/roles/${nextRankNumber}.json`)
@@ -451,10 +475,12 @@ bot.on('message', async message => {
         var {body} = await snekfetch.get(`${config.fireBaseURL}/xpData/users/${userID}.json`)
         currentRankAndPoints = `**${currentRankName} - Currently has ${body.xpValue} XP**`
         requiredXP = 0
+        nextRankName = "??"
       }else{
         currentRankName = "Guest"
         currentRankAndPoints = `**${currentRankName} - Currently has 0 XP**`
         requiredXP = 0
+        nextRankName = `[Join Group](https://www.roblox.com/groups/${config.groupID})`
       }
 
 
@@ -492,11 +518,11 @@ bot.on('message', async message => {
         percentBar = ":white_large_square: :white_large_square: :white_large_square: :white_large_square: :white_large_square: :white_large_square: :white_large_square: :white_large_square: :white_large_square: :white_large_square:"
       }
       var remainingErrorNumber = Number(requiredXP-Number(currentXP))
-      if (remainingErrorNumber < 0){
+      if ((remainingErrorNumber < 0) || (remainingErrorNumber === 0)){
         remainingErrorNumber = "Due 4 Promotion";
       }
 
-      var remainingError = `**${remainingErrorNumber}** XP remaining for **${currentRankName} (${requiredXP} XP)**`
+      var remainingError = `**${remainingErrorNumber}** XP remaining for **${nextRankName} (${requiredXP} XP)**`
 
 
       var response = new Discord.RichEmbed()
