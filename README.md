@@ -13,7 +13,7 @@ Clan Labs' features are pretty neat; however, I don't like to see a community <i
 <ul>
   <li><a href="https://streamable.com/wbz79">Initial Setup</a></li>
   <li><a href="https://streamable.com/snwqo">Installing Packages</a></li>
-  <li><a href="https://github.com/nishi7409/ClanLabs-OpenSourced">Configuring JSON File</a></li>
+  <li><a href="https://vimeo.com/351744368">Configuring JSON File (forgot to mention, but the account where you get the cookie from, that account should have promotable & demotable powers in the group)</a></li>
   <li><a href="https://github.com/nishi7409/ClanLabs-OpenSourced">Initial Owner Setup</a></li>
   <li><a href="https://github.com/nishi7409/ClanLabs-OpenSourced">Github-Heroku Integration</a></li>
 </ul>
