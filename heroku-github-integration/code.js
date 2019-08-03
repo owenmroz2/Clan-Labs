@@ -1,14 +1,14 @@
 /* SETTINGS START */
 const prefix = "!"
 const groupID = 123123;
-const bot_token = "token";
-const rblxCookie = "cookie";
+const bot_token = process.env.botToken;
+const rblxCookie = process.env.rblxCookie;
 const officerRole = "Officer";
 const welcomeMessage = "Welcome!";
 const maxXP = 10;
 const xpAuditLogChannelID = "123123";
 const mainChatChannelID = "123123";
-const fireBaseURL = "firebaseURL";
+const fireBaseURL = process.env.fireBaseURL;
 /* SETTINGS END */
 
 /* PACKAGES START */
@@ -44,13 +44,13 @@ bot.on('message', async message => {
   const verificationCode = ['apple', 'rain', 'dog', 'cat', 'food','yum','pizza','raindrop','snow','birthday','cake','burger','soda','ice','no','yes','orange','pear','plum'];
   const promoLogs = bot.channels.get(`${xpAuditLogChannelID}`)
   const officerRole = message.guild.roles.find(role => role.name === `${officerRole}`);
-  const groupFunction = await bloxyClient.getGroup(config.groupID)
+  const groupFunction = await bloxyClient.getGroup(groupID)
 
 
   if (message.author.bot) return;
   if (message.channel.type === "dm") return;
 
-  if (message.content.toLowerCase().startsWith(`${config.prefix}verify`)){
+  if (message.content.toLowerCase().startsWith(`${prefix}verify`)){
 
     if (!message.guild.members.get(bot.user.id).hasPermission("MANAGE_NICKNAMES")){
       return message.channel.send(`Sorry ${message.author}, but I don't have permissions to manage nicknames.\n**Please contact someone to change my permissions so I can manage nicknames!**`).then(message => message.delete(5000));
@@ -104,7 +104,7 @@ bot.on('message', async message => {
     var nicknames = await rbx.getIdFromUsername(args[1]);
     var nicknames2 = await rbx.getUsernameFromId(nicknames);
     var okayLetsTry = await rbx.getIdFromUsername(args[1]);
-    var firstCheck = await rbx.getRankInGroup(config.groupID, okayLetsTry)
+    var firstCheck = await rbx.getRankInGroup(groupID, okayLetsTry)
 
     if (blurb1 === token || blurb2 === token){
       await message.member.addRole(verifiedRole);
@@ -116,25 +116,25 @@ bot.on('message', async message => {
     return message.channel.send(`I should never run into this last message.\n**If I do, you fucked up somewhere in the code.**`)
   }
 
-  if (message.content.toLowerCase().startsWith(`${config.prefix}xp`)){
+  if (message.content.toLowerCase().startsWith(`${prefix}xp`)){
     if (!message.member.roles.exists("name", `${officerRole}`)){
       return message.channel.send(`Sorry ${message.author}, but only users with the **\`${officerRole}\`** can run that command!`).then(message => message.delete(5000));
     }
     if (!args[1]){
-      return message.channel.send(`Sorry ${message.author}, but you're missing the first argument--add or remove?\n**Adding XP: \`${config.prefix}xp add 1 username1, username2, username3...\`\nRemoving XP: \`${config.prefix}xp remove 1 username1, username2, username3...\`**`).then(message => message.delete(5000));
+      return message.channel.send(`Sorry ${message.author}, but you're missing the first argument--add or remove?\n**Adding XP: \`${prefix}xp add 1 username1, username2, username3...\`\nRemoving XP: \`${prefix}xp remove 1 username1, username2, username3...\`**`).then(message => message.delete(5000));
     }else if (args[1].toLowerCase() !== "add" && args[1].toLowerCase() !== "remove"){
-      return message.channel.send(`Sorry ${message.author}, but you didn't provide me with a correct first argument--add or remove?\n**Adding XP: \`${config.prefix}xp add 1 username1, username2, username3...\`\nRemoving XP: \`${config.prefix}xp remove 1 username1, username2, username3...\`**`).then(message => message.delete(5000));
+      return message.channel.send(`Sorry ${message.author}, but you didn't provide me with a correct first argument--add or remove?\n**Adding XP: \`${prefix}xp add 1 username1, username2, username3...\`\nRemoving XP: \`${prefix}xp remove 1 username1, username2, username3...\`**`).then(message => message.delete(5000));
     }else{
       if (!args[2]){
-        return message.channel.send(`Sorry ${message.author}, but you're missing the second argument--number of XP?\n**Adding XP: \`${config.prefix}xp add 1 username1, username2, username3...\`\nRemoving XP: \`${config.prefix}xp remove 1 username1, username2, username3...\`**`).then(message => message.delete(5000));
+        return message.channel.send(`Sorry ${message.author}, but you're missing the second argument--number of XP?\n**Adding XP: \`${prefix}xp add 1 username1, username2, username3...\`\nRemoving XP: \`${prefix}xp remove 1 username1, username2, username3...\`**`).then(message => message.delete(5000));
       }else if (isNaN(Number(args[2]))){
-        return message.channel.send(`Sorry ${message.author}, but you didn't provide me with a real number.\n**Adding XP: \`${config.prefix}xp add 1 username1, username2, username3...\`\nRemoving XP: \`${config.prefix}xp remove 1 username1, username2, username3...\`**`).then(message => message.delete(5000));
+        return message.channel.send(`Sorry ${message.author}, but you didn't provide me with a real number.\n**Adding XP: \`${prefix}xp add 1 username1, username2, username3...\`\nRemoving XP: \`${prefix}xp remove 1 username1, username2, username3...\`**`).then(message => message.delete(5000));
       }else if (args[2] < 0){
-        return message.channel.send(`Sorry ${message.author}, but you need to provide me with a positive number.\n**Adding XP: \`${config.prefix}xp add 1 username1, username2, username3...\`\nRemoving XP: \`${config.prefix}xp remove 1 username1, username2, username3...\`**`).then(message => message.delete(5000));
+        return message.channel.send(`Sorry ${message.author}, but you need to provide me with a positive number.\n**Adding XP: \`${prefix}xp add 1 username1, username2, username3...\`\nRemoving XP: \`${prefix}xp remove 1 username1, username2, username3...\`**`).then(message => message.delete(5000));
       }else if (args[2] > maxXP){
-        return message.channel.send(`Sorry ${message.author}, but you need to provide mw with a number that's less than the max XP--currently set at ${maxXP} XP.\n**Adding XP: \`${config.prefix}xp add 1 username1, username2, username3...\`\nRemoving XP: \`${config.prefix}xp remove 1 username1, username2, username3...\`**`).then(message => message.delete(5000));
+        return message.channel.send(`Sorry ${message.author}, but you need to provide mw with a number that's less than the max XP--currently set at ${maxXP} XP.\n**Adding XP: \`${prefix}xp add 1 username1, username2, username3...\`\nRemoving XP: \`${prefix}xp remove 1 username1, username2, username3...\`**`).then(message => message.delete(5000));
       }else if (!args[3]){
-        return message.channel.send(`Sorry ${message.author}, but you're missing the third argument--the usernames!\n**Adding XP: \`${config.prefix}xp add 1 username1, username2, username3...\`\nRemoving XP: \`${config.prefix}xp remove 1 username1, username2, username3...\`**`).then(message => message.delete(5000));
+        return message.channel.send(`Sorry ${message.author}, but you're missing the third argument--the usernames!\n**Adding XP: \`${prefix}xp add 1 username1, username2, username3...\`\nRemoving XP: \`${prefix}xp remove 1 username1, username2, username3...\`**`).then(message => message.delete(5000));
       }else{
         if (args[1].toLowerCase() === "add"){
           var userArray = message.content.slice(message.content.indexOf(message.content.split(" ")[3])).split(', ');
@@ -188,16 +188,16 @@ bot.on('message', async message => {
                   bot.channels.get(promoLogs.id).send(auditLogEmbed);
 
 
-                var currentRankID = await rbx.getRankInGroup(config.groupID, userID)
+                var currentRankID = await rbx.getRankInGroup(groupID, userID)
                 var { body } = await snekfetch.get(`${fireBaseURL}/roles/${currentRankID}.json`);
                 var requiredXPAtCurrentRankID = body.requiredXP
 
-                var {body} = await snekfetch.get(`https://groups.roblox.com/v1/groups/${config.groupID}/roles`)
+                var {body} = await snekfetch.get(`https://groups.roblox.com/v1/groups/${groupID}/roles`)
 
                 for (i = body.roles.length-1; i > 0; i--){
                   console.log(i)
-                  var {body} = await snekfetch.get(`https://groups.roblox.com/v1/groups/${config.groupID}/roles`)
-                  var currentRankID = await rbx.getRankInGroup(config.groupID, userID)
+                  var {body} = await snekfetch.get(`https://groups.roblox.com/v1/groups/${groupID}/roles`)
+                  var currentRankID = await rbx.getRankInGroup(groupID, userID)
                   var bodyRolesRankNum = body.roles[i].rank
 
                   var {body} = await snekfetch.get(`${fireBaseURL}/xpData/users/${userID}.json`)
@@ -219,12 +219,12 @@ bot.on('message', async message => {
                   }
                 }
 
-                var {body} = await snekfetch.get(`https://groups.roblox.com/v1/groups/${config.groupID}/roles`)
+                var {body} = await snekfetch.get(`https://groups.roblox.com/v1/groups/${groupID}/roles`)
 
 
                 for (i = 1; i < body.roles.length-1; i++){
                   console.log(i)
-                  var {body} = await snekfetch.get(`https://groups.roblox.com/v1/groups/${config.groupID}/roles`)
+                  var {body} = await snekfetch.get(`https://groups.roblox.com/v1/groups/${groupID}/roles`)
 
                   if (body.roles[i].rank === Number(currentRankID)){
                     var bodyRolesRankNumber = body.roles[i+1].rank;
@@ -305,16 +305,16 @@ bot.on('message', async message => {
                   bot.channels.get(promoLogs.id).send(auditLogEmbed);
 
 
-                var currentRankID = await rbx.getRankInGroup(config.groupID, userID)
+                var currentRankID = await rbx.getRankInGroup(groupID, userID)
                 var { body } = await snekfetch.get(`${fireBaseURL}/roles/${currentRankID}.json`);
                 var requiredXPAtCurrentRankID = body.requiredXP
 
-                var {body} = await snekfetch.get(`https://groups.roblox.com/v1/groups/${config.groupID}/roles`)
+                var {body} = await snekfetch.get(`https://groups.roblox.com/v1/groups/${groupID}/roles`)
 
                 for (i = body.roles.length-1; i > 0; i--){
                   console.log(i)
-                  var {body} = await snekfetch.get(`https://groups.roblox.com/v1/groups/${config.groupID}/roles`)
-                  var currentRankID = await rbx.getRankInGroup(config.groupID, userID)
+                  var {body} = await snekfetch.get(`https://groups.roblox.com/v1/groups/${groupID}/roles`)
+                  var currentRankID = await rbx.getRankInGroup(groupID, userID)
                   var bodyRolesRankNum = body.roles[i].rank
 
                   var {body} = await snekfetch.get(`${fireBaseURL}/xpData/users/${userID}.json`)
@@ -336,12 +336,12 @@ bot.on('message', async message => {
                   }
                 }
 
-                var {body} = await snekfetch.get(`https://groups.roblox.com/v1/groups/${config.groupID}/roles`)
+                var {body} = await snekfetch.get(`https://groups.roblox.com/v1/groups/${groupID}/roles`)
 
 
                 for (i = 1; i < body.roles.length-1; i++){
                   console.log(i)
-                  var {body} = await snekfetch.get(`https://groups.roblox.com/v1/groups/${config.groupID}/roles`)
+                  var {body} = await snekfetch.get(`https://groups.roblox.com/v1/groups/${groupID}/roles`)
 
                   if (body.roles[i].rank === Number(currentRankID)){
                     var bodyRolesRankNumber = body.roles[i+1].rank;
@@ -370,19 +370,19 @@ bot.on('message', async message => {
     }
   }
 
-  if (message.content.toLowerCase().startsWith(`${config.prefix}setup`)){
+  if (message.content.toLowerCase().startsWith(`${prefix}setup`)){
     if (message.author.id !== message.guild.owner.id){
       return message.channel.send(`Sorry ${message.author}, but only the guild owner (${message.guild.owner}) can run that command!`).then(message => message.delete(5000));
     }
-    if (config.groupID === 0){
+    if (groupID === 0){
       return message.channel.send(`Sorry ${message.author}, but I'm missing the group's ID--which can be entered in the config.json file.`).then(message => message.delete(5000));
     }
-    var {body} = await snekfetch.get(`https://groups.roblox.com/v1/groups/${config.groupID}`)
+    var {body} = await snekfetch.get(`https://groups.roblox.com/v1/groups/${groupID}`)
     if (body.errors){
       return message.channel.send(`Sorry ${message.author}, but you provided me with an invalid group ID in the config.json file.`).then(message => message.delete(5000));
     }
     await message.channel.send(`Pulling information from **${body.name}** (\`${body.id}\`)`).then(message => message.delete(2000));
-    var {body} = await snekfetch.get(`https://groups.roblox.com/v1/groups/${config.groupID}/roles`)
+    var {body} = await snekfetch.get(`https://groups.roblox.com/v1/groups/${groupID}/roles`)
     var roles = [];
     var xpData = [];
     for (i = 1; i < body.roles.length; i++){
@@ -433,14 +433,14 @@ bot.on('message', async message => {
     return message.reply(finallyDone);
   }
 
-  if (message.content.toLowerCase().startsWith(`${config.prefix}view`)){
+  if (message.content.toLowerCase().startsWith(`${prefix}view`)){
     if (!args[1]){
-      return message.channel.send(`Sorry ${message.author}, but you're missing the first argument--the username!\n**\`${config.prefix}view username1\`**`).then(message => message.delete(5000));
+      return message.channel.send(`Sorry ${message.author}, but you're missing the first argument--the username!\n**\`${prefix}view username1\`**`).then(message => message.delete(5000));
     }
 
     var { body } = await snekfetch.get(`http://api.roblox.com/users/get-by-username?username=${args[1]}`)
     if (body.errorMessage === "User not found"){
-      return message.channel.send(`Sorry ${message.author}, but you gave me an invalid username!\n**\`${config.prefix}view username1\`**`).then(message => message.delete(5000));
+      return message.channel.send(`Sorry ${message.author}, but you gave me an invalid username!\n**\`${prefix}view username1\`**`).then(message => message.delete(5000));
     }
     var userID = body.Id
 
@@ -457,14 +457,14 @@ bot.on('message', async message => {
     }else{
 
       currentXP = body.xpValue
-      var currentRankID = await rbx.getRankInGroup(config.groupID, userID)
+      var currentRankID = await rbx.getRankInGroup(groupID, userID)
       var requiredXP;
       var usernameHeader = `[${args[1].toLowerCase()}](https://www.roblox.com/users/${userID}/profile)`
       var currentRankAndPoints;
       var currentRankName;
       var nextRankName;
 
-      var {body} = await snekfetch.get(`https://groups.roblox.com/v1/groups/${config.groupID}/roles`)
+      var {body} = await snekfetch.get(`https://groups.roblox.com/v1/groups/${groupID}/roles`)
       console.log(`errors here1`)
       if ((0 < currentRankID) && (currentRankID < 255)){
         for (i = 1; i < body.roles.length; i++){
@@ -480,7 +480,7 @@ bot.on('message', async message => {
           }
         }
       }else if (currentRankID === 255){
-        currentRankName = await rbx.getRankNameInGroup(config.groupID, userID)
+        currentRankName = await rbx.getRankNameInGroup(groupID, userID)
         var {body} = await snekfetch.get(`${fireBaseURL}/xpData/users/${userID}.json`)
         currentRankAndPoints = `**${currentRankName} - Currently has ${body.xpValue} XP**`
         requiredXP = 0
@@ -489,7 +489,7 @@ bot.on('message', async message => {
         currentRankName = "Guest"
         currentRankAndPoints = `**${currentRankName} - Currently has 0 XP**`
         requiredXP = 0
-        nextRankName = `[Join Group](https://www.roblox.com/groups/${config.groupID})`
+        nextRankName = `[Join Group](https://www.roblox.com/groups/${groupID})`
       }
 
 
@@ -543,33 +543,33 @@ bot.on('message', async message => {
 
   }
 
-  if (message.content.toLowerCase().startsWith(`${config.prefix}commands`)){
+  if (message.content.toLowerCase().startsWith(`${prefix}commands`)){
     var first = new Discord.RichEmbed()
       .setColor(0x1279ff)
       .setTitle(`__Member Commands__`)
       .setDescription(`The following commands can be ran by: *everyone*.`)
-      .addField(`**\`${config.prefix}verify\`**`, `Associates a user's ROBLOX account with their Discord account through verification procedures.`)
-      .addField(`**\`${config.prefix}view username1\`**`, `Views XP information about the given username (\`username1\`).`)
-      .addField(`**\`${config.prefix}prefix\`**`, `Returns the current prefix set for the guild.`)
-      .addField(`**\`${config.prefix}commands\`**`, `Displays this menu`)
+      .addField(`**\`${prefix}verify\`**`, `Associates a user's ROBLOX account with their Discord account through verification procedures.`)
+      .addField(`**\`${prefix}view username1\`**`, `Views XP information about the given username (\`username1\`).`)
+      .addField(`**\`${prefix}prefix\`**`, `Returns the current prefix set for the guild.`)
+      .addField(`**\`${prefix}commands\`**`, `Displays this menu`)
     await message.author.send(first)
     var second = new Discord.RichEmbed()
       .setColor(0xff6b4a)
       .setTitle(`__Officer Commands__`)
       .setDescription(`The following commands can be ran by: *officers*.`)
-      .addField(`**\`${config.prefix}xp add 1 username1, username2, username3, etc\`**`, `Adds 1 XP to the usernames provided (\`username1, username2, username3, etc\`).`)
-      .addField(`**\`${config.prefix}xp remove 1 username1, username2, username3, etc\`**`, `Removes 1 XP to the usernames provided (\`username1, username2, username3, etc\`).`)
+      .addField(`**\`${prefix}xp add 1 username1, username2, username3, etc\`**`, `Adds 1 XP to the usernames provided (\`username1, username2, username3, etc\`).`)
+      .addField(`**\`${prefix}xp remove 1 username1, username2, username3, etc\`**`, `Removes 1 XP to the usernames provided (\`username1, username2, username3, etc\`).`)
     await message.author.send(second)
     var third = new Discord.RichEmbed()
       .setColor(0xffffff)
       .setTitle(`__Owner Commands__`)
       .setDescription(`The following commands can be ran by: *owner*.`)
-      .addField(`**\`${config.prefix}setup\`**`, `Sets up the guild with all of the information found in the config.json file (./settings/config.json).`)
+      .addField(`**\`${prefix}setup\`**`, `Sets up the guild with all of the information found in the config.json file (./settings/config.json).`)
     await message.author.send(third)
     return undefined;
   }
 
-  if (message.content.toLowerCase().startsWith(`${config.prefix}code`) || message.content.toLowerCase().startsWith(`${config.prefix}link`) || message.content.toLowerCase().startsWith(`${config.prefix}tutorial`)){
+  if (message.content.toLowerCase().startsWith(`${prefix}code`) || message.content.toLowerCase().startsWith(`${prefix}link`) || message.content.toLowerCase().startsWith(`${prefix}tutorial`)){
     var embed = new Discord.RichEmbed()
       .setColor(0xff3636)
       .setDescription(`**[Video Tutorial](https://www.google.com)**`)
