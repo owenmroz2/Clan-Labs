@@ -34,7 +34,7 @@ bot.on('message', async message => {
   const verifiedRole = message.guild.roles.find(role => role.name === "Verified");
   const verificationCode = ['apple', 'rain', 'dog', 'cat', 'food','yum','pizza','raindrop','snow','birthday','cake','burger','soda','ice','no','yes','orange','pear','plum'];
   const promoLogs = bot.channels.get(`${config.xpAuditLogChannelID}`)
-  const officerRole = message.guild.roles.find(role => role.name === `${config.officerRole}`);
+  const officerRole = message.guild.roles.find(role => role.name === `${config.officerRoleE}`);
   const groupFunction = await bloxyClient.getGroup(config.groupID)
 
 
@@ -108,8 +108,8 @@ bot.on('message', async message => {
   }
 
   if (message.content.toLowerCase().startsWith(`${config.prefix}xp`)){
-    if (!message.member.roles.exists("name", `${config.officerRole}`)){
-      return message.channel.send(`Sorry ${message.author}, but only users with the **\`${config.officerRole}\`** can run that command!`).then(message => message.delete(5000));
+    if (!message.member.roles.exists("name", `${config.officerRoleE}`)){
+      return message.channel.send(`Sorry ${message.author}, but only users with the **\`${config.officerRoleE}\`** can run that command!`).then(message => message.delete(5000));
     }
     if (!args[1]){
       return message.channel.send(`Sorry ${message.author}, but you're missing the first argument--add or remove?\n**Adding XP: \`${config.prefix}xp add 1 username1, username2, username3...\`\nRemoving XP: \`${config.prefix}xp remove 1 username1, username2, username3...\`**`).then(message => message.delete(5000));
