@@ -196,26 +196,28 @@ bot.on('message', async message => {
 
                 for (i = body.roles.length-1; i > 0; i--){
                   console.log(i)
-                  var {body} = await snekfetch.get(`https://groups.roblox.com/v1/groups/${groupID}/roles`)
-                  var currentRankID = await rbx.getRankInGroup(groupID, userID)
+                  var {body} = await snekfetch.get(`https://groups.roblox.com/v1/groups/${config.groupID}/roles`)
+                  var currentRankID = await rbx.getRankInGroup(config.groupID, userID)
                   var bodyRolesRankNum = body.roles[i].rank
-
-                  var {body} = await snekfetch.get(`${fireBaseURL}/xpData/users/${userID}.json`)
+                  var bodyRoleRankName = body.roles[i].name
+                  var {body} = await snekfetch.get(`${config.fireBaseURL}/xpData/users/${userID}.json`)
                   var currentXP = body.xpValue
 
-                  var { body } = await snekfetch.get(`${fireBaseURL}/roles/${currentRankID}.json`);
+                  var { body } = await snekfetch.get(`${config.fireBaseURL}/roles/${currentRankID}.json`);
 
                   var requiredXPAtCurrentRankID = body.requiredXP
+                  console.log(`current xp - ${currentXP}\nrequired xp - ${requiredXPAtCurrentRankID}`)
 
-                  if ((Number(currentRankID) === Number(bodyRolesRankNum)) && (currentXP < requiredXPAtCurrentRankID)){
-                    console.log('demoted')
-                    var rblxUsername = await rbx.getUsernameFromId(userID)
-                    var embed = new Discord.RichEmbed()
-                    .setColor(0xeb4034)
-                    .setDescription(`Unfortunately, [${rblxUsername}](https://www.roblox.com/users/${userID}/profile) has been demoted because [${rblxUsername}](https://www.roblox.com/users/${userID}/profile)'s XP was less than the required amount of XP for the rank of **\`${body.roles[i].name}\` (requiredXPAtCurrentRankID)** `)
-                    await message.channel.send(embed)
-                    await groupFunction.demote(Number(userID))
-                    break
+                  if (Number(currentRankID) === Number(bodyRolesRankNum)){
+                    if (currentXP < requiredXPAtCurrentRankID){
+                      await groupFunction.demote(Number(userID))
+                      console.log('demoted')
+                      var rblxUsername = await rbx.getUsernameFromId(userID)
+                      var embed = new Discord.RichEmbed()
+                      .setColor(0xeb4034)
+                      .setDescription(`Unfortunately, [${rblxUsername}](https://www.roblox.com/users/${userID}/profile) has been demoted because [${rblxUsername}](https://www.roblox.com/users/${userID}/profile)'s XP was less than the required amount of XP for the rank of **\`${bodyRoleRankName}\` (${requiredXPAtCurrentRankID})** `)
+                      await message.channel.send(embed)
+                    }
                   }
                 }
 
@@ -242,7 +244,6 @@ bot.on('message', async message => {
                       await message.channel.send(embed)
                       await groupFunction.promote(Number(userID));
                     }
-                    break
                   }
                 }
               }
@@ -313,26 +314,28 @@ bot.on('message', async message => {
 
                 for (i = body.roles.length-1; i > 0; i--){
                   console.log(i)
-                  var {body} = await snekfetch.get(`https://groups.roblox.com/v1/groups/${groupID}/roles`)
-                  var currentRankID = await rbx.getRankInGroup(groupID, userID)
+                  var {body} = await snekfetch.get(`https://groups.roblox.com/v1/groups/${config.groupID}/roles`)
+                  var currentRankID = await rbx.getRankInGroup(config.groupID, userID)
                   var bodyRolesRankNum = body.roles[i].rank
-
-                  var {body} = await snekfetch.get(`${fireBaseURL}/xpData/users/${userID}.json`)
+                  var bodyRoleRankName = body.roles[i].name
+                  var {body} = await snekfetch.get(`${config.fireBaseURL}/xpData/users/${userID}.json`)
                   var currentXP = body.xpValue
 
-                  var { body } = await snekfetch.get(`${fireBaseURL}/roles/${currentRankID}.json`);
+                  var { body } = await snekfetch.get(`${config.fireBaseURL}/roles/${currentRankID}.json`);
 
                   var requiredXPAtCurrentRankID = body.requiredXP
+                  console.log(`current xp - ${currentXP}\nrequired xp - ${requiredXPAtCurrentRankID}`)
 
-                  if ((Number(currentRankID) === Number(bodyRolesRankNum)) && (currentXP < requiredXPAtCurrentRankID)){
-                    console.log('demoted')
-                    var rblxUsername = await rbx.getUsernameFromId(userID)
-                    var embed = new Discord.RichEmbed()
-                    .setColor(0xeb4034)
-                    .setDescription(`Unfortunately, [${rblxUsername}](https://www.roblox.com/users/${userID}/profile) has been demoted because [${rblxUsername}](https://www.roblox.com/users/${userID}/profile)'s XP was less than the required amount of XP for the rank of **\`${body.roles[i].name}\` (requiredXPAtCurrentRankID)** `)
-                    await message.channel.send(embed)
-                    await groupFunction.demote(Number(userID))
-                    break
+                  if (Number(currentRankID) === Number(bodyRolesRankNum)){
+                    if (currentXP < requiredXPAtCurrentRankID){
+                      await groupFunction.demote(Number(userID))
+                      console.log('demoted')
+                      var rblxUsername = await rbx.getUsernameFromId(userID)
+                      var embed = new Discord.RichEmbed()
+                      .setColor(0xeb4034)
+                      .setDescription(`Unfortunately, [${rblxUsername}](https://www.roblox.com/users/${userID}/profile) has been demoted because [${rblxUsername}](https://www.roblox.com/users/${userID}/profile)'s XP was less than the required amount of XP for the rank of **\`${bodyRoleRankName}\` (${requiredXPAtCurrentRankID})** `)
+                      await message.channel.send(embed)
+                    }
                   }
                 }
 
@@ -359,7 +362,6 @@ bot.on('message', async message => {
                       await message.channel.send(embed)
                       await groupFunction.promote(Number(userID));
                     }
-                    break
                   }
                 }
               }

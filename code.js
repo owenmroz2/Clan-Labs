@@ -210,7 +210,6 @@ bot.on('message', async message => {
                       .setDescription(`Unfortunately, [${rblxUsername}](https://www.roblox.com/users/${userID}/profile) has been demoted because [${rblxUsername}](https://www.roblox.com/users/${userID}/profile)'s XP was less than the required amount of XP for the rank of **\`${bodyRoleRankName}\` (${requiredXPAtCurrentRankID})** `)
                       await message.channel.send(embed)
                     }
-                    break
                   }
                 }
 
@@ -237,7 +236,6 @@ bot.on('message', async message => {
                       await message.channel.send(embed)
                       await groupFunction.promote(Number(userID));
                     }
-                    break
                   }
                 }
               }
@@ -331,7 +329,6 @@ bot.on('message', async message => {
                       .setDescription(`Unfortunately, [${rblxUsername}](https://www.roblox.com/users/${userID}/profile) has been demoted because [${rblxUsername}](https://www.roblox.com/users/${userID}/profile)'s XP was less than the required amount of XP for the rank of **\`${bodyRoleRankName}\` (${requiredXPAtCurrentRankID})** `)
                       await message.channel.send(embed)
                     }
-                    break
                   }
                 }
 
@@ -357,7 +354,6 @@ bot.on('message', async message => {
                       await message.channel.send(embed)
                       await groupFunction.promote(Number(userID));
                     }
-                    break
                   }
                 }
               }
