@@ -113,20 +113,20 @@ bot.on('message', async message => {
       return message.channel.send(`Sorry ${message.author}, but only users with the **\`${config.officerRoleE}\`** can run that command!`).then(message => message.delete(5000));
     }
     if (!args[1]){
-      return message.channel.send(`Sorry ${message.author}, but you're missing the first argument--add or remove?\n**Adding XP: \`${config.prefix}${config.xpName} add 1 username1, username2, username3...\`\nRemoving XP: \`${config.prefix}${config.xpName} remove 1 username1, username2, username3...\`**`).then(message => message.delete(5000));
+      return message.channel.send(`Sorry ${message.author}, but you're missing the first argument--add or remove?\n**Adding ${config.xpName}: \`${config.prefix}${config.xpName} add 1 username1, username2, username3...\`\nRemoving ${config.xpName}: \`${config.prefix}${config.xpName} remove 1 username1, username2, username3...\`**`).then(message => message.delete(5000));
     }else if (args[1].toLowerCase() !== "add" && args[1].toLowerCase() !== "remove"){
-      return message.channel.send(`Sorry ${message.author}, but you didn't provide me with a correct first argument--add or remove?\n**Adding XP: \`${config.prefix}${config.xpName}add 1 username1, username2, username3...\`\nRemoving XP: \`${config.prefix}${config.xpName}remove 1 username1, username2, username3...\`**`).then(message => message.delete(5000));
+      return message.channel.send(`Sorry ${message.author}, but you didn't provide me with a correct first argument--add or remove?\n**Adding ${config.xpName}: \`${config.prefix}${config.xpName}add 1 username1, username2, username3...\`\nRemoving ${config.xpName}: \`${config.prefix}${config.xpName}remove 1 username1, username2, username3...\`**`).then(message => message.delete(5000));
     }else{
       if (!args[2]){
-        return message.channel.send(`Sorry ${message.author}, but you're missing the second argument--number of XP?\n**Adding XP: \`${config.prefix}${config.xpName}add 1 username1, username2, username3...\`\nRemoving XP: \`${config.prefix}${config.xpName}remove 1 username1, username2, username3...\`**`).then(message => message.delete(5000));
+        return message.channel.send(`Sorry ${message.author}, but you're missing the second argument--number of ${config.xpName}?\n**Adding ${config.xpName}: \`${config.prefix}${config.xpName}add 1 username1, username2, username3...\`\nRemoving ${config.xpName}: \`${config.prefix}${config.xpName}remove 1 username1, username2, username3...\`**`).then(message => message.delete(5000));
       }else if (isNaN(Number(args[2]))){
-        return message.channel.send(`Sorry ${message.author}, but you didn't provide me with a real number.\n**Adding XP: \`${config.prefix}${config.xpName}add 1 username1, username2, username3...\`\nRemoving XP: \`${config.prefix}${config.xpName}remove 1 username1, username2, username3...\`**`).then(message => message.delete(5000));
+        return message.channel.send(`Sorry ${message.author}, but you didn't provide me with a real number.\n**Adding ${config.xpName}: \`${config.prefix}${config.xpName}add 1 username1, username2, username3...\`\nRemoving ${config.xpName}: \`${config.prefix}${config.xpName}remove 1 username1, username2, username3...\`**`).then(message => message.delete(5000));
       }else if (args[2] < 0){
-        return message.channel.send(`Sorry ${message.author}, but you need to provide me with a positive number.\n**Adding XP: \`${config.prefix}${config.xpName}add 1 username1, username2, username3...\`\nRemoving XP: \`${config.prefix}${config.xpName}remove 1 username1, username2, username3...\`**`).then(message => message.delete(5000));
+        return message.channel.send(`Sorry ${message.author}, but you need to provide me with a positive number.\n**Adding ${config.xpName}: \`${config.prefix}${config.xpName}add 1 username1, username2, username3...\`\nRemoving ${config.xpName}: \`${config.prefix}${config.xpName}remove 1 username1, username2, username3...\`**`).then(message => message.delete(5000));
       }else if (args[2] > config.maxXP){
-        return message.channel.send(`Sorry ${message.author}, but you need to provide mw with a number that's less than the max XP--currently set at ${config.maxXP} XP.\n**Adding XP: \`${config.prefix}${config.xpName}add 1 username1, username2, username3...\`\nRemoving XP: \`${config.prefix}${config.xpName}remove 1 username1, username2, username3...\`**`).then(message => message.delete(5000));
+        return message.channel.send(`Sorry ${message.author}, but you need to provide mw with a number that's less than the max ${config.xpName}--currently set at ${config.maxXP} ${config.xpName}.\n**Adding ${config.xpName}: \`${config.prefix}${config.xpName}add 1 username1, username2, username3...\`\nRemoving ${config.xpName}: \`${config.prefix}${config.xpName}remove 1 username1, username2, username3...\`**`).then(message => message.delete(5000));
       }else if (!args[3]){
-        return message.channel.send(`Sorry ${message.author}, but you're missing the third argument--the usernames!\n**Adding XP: \`${config.prefix}${config.xpName}add 1 username1, username2, username3...\`\nRemoving XP: \`${config.prefix}${config.xpName}remove 1 username1, username2, username3...\`**`).then(message => message.delete(5000));
+        return message.channel.send(`Sorry ${message.author}, but you're missing the third argument--the usernames!\n**Adding ${config.xpName}: \`${config.prefix}${config.xpName}add 1 username1, username2, username3...\`\nRemoving ${config.xpName}: \`${config.prefix}${config.xpName}remove 1 username1, username2, username3...\`**`).then(message => message.delete(5000));
       }else{
         if (args[1].toLowerCase() === "add"){
           var userArray = message.content.slice(message.content.indexOf(message.content.split(" ")[3])).split(', ');
@@ -162,7 +162,7 @@ bot.on('message', async message => {
                 var auditLogEmbed = new Discord.RichEmbed()
                   .setColor(0xff793b)
                   .setTitle(`**Add**`)
-                  .setDescription(`**${message.author}** (${message.author.id})\nModified **${newNumber}** XP for ${userArray[i].toLowerCase()} (${userID})\n\n**Channel:**\n<#${message.channel.id}>`);
+                  .setDescription(`**${message.author}** (${message.author.id})\nModified **${newNumber}** ${config.xpName} for ${userArray[i].toLowerCase()} (${userID})\n\n**Channel:**\n<#${message.channel.id}>`);
                   bot.channels.get(promoLogs.id).send(auditLogEmbed);
               }else{
                 var currentRankID = await rbx.getRankInGroup(config.groupID, userID)
@@ -212,7 +212,7 @@ bot.on('message', async message => {
                         var rblxUsername = await rbx.getUsernameFromId(userID)
                         var embed = new Discord.RichEmbed()
                         .setColor(0xeb4034)
-                        .setDescription(`Unfortunately, [${rblxUsername}](https://www.roblox.com/users/${userID}/profile) has been demoted because [${rblxUsername}](https://www.roblox.com/users/${userID}/profile)'s XP was less than the required amount of XP for the rank of **\`${bodyRoleRankName}\` (${requiredXPAtCurrentRankID})** `)
+                        .setDescription(`Unfortunately, [${rblxUsername}](https://www.roblox.com/users/${userID}/profile) has been demoted because [${rblxUsername}](https://www.roblox.com/users/${userID}/profile)'s ${config.xpName} was less than the required amount of ${config.xpName} for the rank of **\`${bodyRoleRankName}\` (${requiredXPAtCurrentRankID})** `)
                         await message.channel.send(embed)
                       }
                     }
@@ -281,7 +281,7 @@ bot.on('message', async message => {
                 var auditLogEmbed = new Discord.RichEmbed()
                   .setColor(0xff793b)
                   .setTitle(`**Remove**`)
-                  .setDescription(`**${message.author}** (${message.author.id})\nModified **${newNumber}** XP for ${userArray[i].toLowerCase()} (${userID})\n\n**Channel:**\n<#${message.channel.id}>`);
+                  .setDescription(`**${message.author}** (${message.author.id})\nModified **${newNumber}** ${config.xpName} for ${userArray[i].toLowerCase()} (${userID})\n\n**Channel:**\n<#${message.channel.id}>`);
                   bot.channels.get(promoLogs.id).send(auditLogEmbed);
               }else{
                 firebase.database().ref(`xpData/users/${userID}`).set({
@@ -311,7 +311,7 @@ bot.on('message', async message => {
                   var auditLogEmbed = new Discord.RichEmbed()
                     .setColor(0xff793b)
                     .setTitle(`**Remove**`)
-                    .setDescription(`**${message.author}** (${message.author.id})\nModified **${newNumber}** XP for ${userArray[i].toLowerCase()} (${userID})\n\n**Channel:**\n<#${message.channel.id}>`);
+                    .setDescription(`**${message.author}** (${message.author.id})\nModified **${newNumber}** ${config.xpName} for ${userArray[i].toLowerCase()} (${userID})\n\n**Channel:**\n<#${message.channel.id}>`);
                     bot.channels.get(promoLogs.id).send(auditLogEmbed);
 
 
@@ -341,7 +341,7 @@ bot.on('message', async message => {
                         var rblxUsername = await rbx.getUsernameFromId(userID)
                         var embed = new Discord.RichEmbed()
                         .setColor(0xeb4034)
-                        .setDescription(`Unfortunately, [${rblxUsername}](https://www.roblox.com/users/${userID}/profile) has been demoted because [${rblxUsername}](https://www.roblox.com/users/${userID}/profile)'s XP was less than the required amount of XP for the rank of **\`${bodyRoleRankName}\` (${requiredXPAtCurrentRankID})** `)
+                        .setDescription(`Unfortunately, [${rblxUsername}](https://www.roblox.com/users/${userID}/profile) has been demoted because [${rblxUsername}](https://www.roblox.com/users/${userID}/profile)'s ${config.xpName} was less than the required amount of ${config.xpName} for the rank of **\`${bodyRoleRankName}\` (${requiredXPAtCurrentRankID})** `)
                         await message.channel.send(embed)
                       }
                     }
@@ -405,7 +405,7 @@ bot.on('message', async message => {
           requiredXP: 0 // has to be zero to make sense
         })
       }else{
-        const location = await message.channel.send(`How many XP should be required to achieve the rank of **\`${body.roles[i].name}\`**?`).then(msg => msg.channel).catch(() => {
+        const location = await message.channel.send(`How many ${config.xpName} should be required to achieve the rank of **\`${body.roles[i].name}\`**?`).then(msg => msg.channel).catch(() => {
           return message.channel.send(`Sorry ${message.author}, but I couldn't direct message you.`).then(message => message.delete(6000));
         })
         const timeCollectionThing = { max: 1, time: 30000, errors: ['time'] };
@@ -416,27 +416,27 @@ bot.on('message', async message => {
         }else if (Number(responseArray1[0]) < 0){
           return message.channel.send(`Sorry ${message.author}, but you provided me with a negative number.  I've cancelled the setup process.`)
         }else if (Number(responseArray1[0]) <= Number(xpData[i]) && Number(responseArray1[0]) !== Number(0)){
-          return message.channel.send(`Sorry ${message.author}, but you provided me with a number that was either less than or equal to the required XP for the previous rank--the logic **will not** work if continued.  I've cancelled the setup process.`)
+          return message.channel.send(`Sorry ${message.author}, but you provided me with a number that was either less than or equal to the required ${config.xpName} for the previous rank--the logic **will not** work if continued.  I've cancelled the setup process.`)
         }else{
           firebase.database().ref(`roles/${body.roles[i].rank}`).set({
             requiredXP: Number(responseArray1[0])
           })
           xpData.push(Number(responseArray1[0]));
-          await message.channel.send(`Awesome, I've set the required XP to achieve the rank of **\`${body.roles[i].name}\`** @ **${responseArray1[0]}**!`)
+          await message.channel.send(`Awesome, I've set the required ${config.xpName} to achieve the rank of **\`${body.roles[i].name}\`** @ **${responseArray1[0]}**!`)
         }
       }
     }
     console.log(xpData);
     const finallyDone = new Discord.RichEmbed()
       .setColor(0x4aff98)
-      .setTitle(`**XP Requirements**`)
+      .setTitle(`**${config.xpName} Requirements**`)
     for (i = 1; i < body.roles.length; i++){
       if (body.roles[1].rank === body.roles[i].rank){
-        finallyDone.addField(`:lock: **\`${body.roles[i].name} | ${body.roles[i].rank} | ${body.roles[i].id}\`**`, `0 XP`, true)
+        finallyDone.addField(`:lock: **\`${body.roles[i].name} | ${body.roles[i].rank} | ${body.roles[i].id}\`**`, `0 ${config.xpName}`, true)
       }else if (body.roles[body.roles.length-1].rank === body.roles[i].rank){
-          finallyDone.addField(`:lock: **\`${body.roles[i].name} | ${body.roles[i].rank} | ${body.roles[i].id}\`**`, `0 XP`, true)
+          finallyDone.addField(`:lock: **\`${body.roles[i].name} | ${body.roles[i].rank} | ${body.roles[i].id}\`**`, `0 ${config.xpName}`, true)
       }else{
-          finallyDone.addField(`**\`${body.roles[i].name} | ${body.roles[i].rank} | ${body.roles[i].id}\`**`, `${xpData[0]} XP`, true)
+          finallyDone.addField(`**\`${body.roles[i].name} | ${body.roles[i].rank} | ${body.roles[i].id}\`**`, `${xpData[0]} ${config.xpName}`, true)
           xpData.shift()
       }
     }
@@ -492,7 +492,7 @@ bot.on('message', async message => {
       }else if (currentRankID === 255){
         currentRankName = await rbx.getRankNameInGroup(config.groupID, userID)
         var {body} = await snekfetch.get(`${config.fireBaseURL}/xpData/users/${userID}.json`)
-        currentRankAndPoints = `**${currentRankName} - Currently has ${body.xpValue} XP**`
+        currentRankAndPoints = `**${currentRankName} - Currently has ${body.xpValue} ${config.xpName}**`
         requiredXP = 0
         nextRankName = "??"
       }else{
@@ -561,7 +561,7 @@ bot.on('message', async message => {
       .setTitle(`__Member Commands__`)
       .setDescription(`The following commands can be ran by: *everyone*.`)
       .addField(`**\`${config.prefix}verify\`**`, `Associates a user's ROBLOX account with their Discord account through verification procedures.`)
-      .addField(`**\`${config.prefix}view username1\`**`, `Views XP information about the given username (\`username1\`).`)
+      .addField(`**\`${config.prefix}view username1\`**`, `Views ${config.xpName} information about the given username (\`username1\`).`)
       .addField(`**\`${config.prefix}prefix\`**`, `Returns the current prefix set for the guild.`)
       .addField(`**\`${config.prefix}commands\`**`, `Displays this menu`)
     await message.author.send(first)
@@ -569,8 +569,8 @@ bot.on('message', async message => {
       .setColor(0xff6b4a)
       .setTitle(`__Officer Commands__`)
       .setDescription(`The following commands can be ran by: *officers*.`)
-      .addField(`**\`${config.prefix}${config.xpName} add 1 username1, username2, username3, etc\`**`, `Adds 1 XP to the usernames provided (\`username1, username2, username3, etc\`).`)
-      .addField(`**\`${config.prefix}${config.xpName} remove 1 username1, username2, username3, etc\`**`, `Removes 1 XP to the usernames provided (\`username1, username2, username3, etc\`).`)
+      .addField(`**\`${config.prefix}${config.xpName} add 1 username1, username2, username3, etc\`**`, `Adds 1 ${config.xpName} to the usernames provided (\`username1, username2, username3, etc\`).`)
+      .addField(`**\`${config.prefix}${config.xpName} remove 1 username1, username2, username3, etc\`**`, `Removes 1 ${config.xpName} to the usernames provided (\`username1, username2, username3, etc\`).`)
     await message.author.send(second)
     var third = new Discord.RichEmbed()
       .setColor(0xffffff)
