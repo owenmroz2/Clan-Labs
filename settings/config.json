@@ -10,5 +10,6 @@
   "maxXP": 0000,
   "xpAuditLogChannelID": "0000",
   "mainChatChannelID": "0000",
-  "fireBaseURL": "firebaseURL"
+  "fireBaseURL": "firebaseURL",
+  "xpName": "xp"
 }
