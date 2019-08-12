@@ -176,16 +176,7 @@ bot.on('message', async message => {
                 firebase.database().ref(`xpData/users/${userID}`).set({
                   xpValue: Number(currentXP) + Number(args[2])
                 })
-                var embed = new Discord.RichEmbed()
-                  .setColor(0x5aa9fe)
-                  .setTitle(`Insertion`)
-                  .setDescription(`Inserted and updated **\`${userArray[i].toLowerCase()}\`**'s profile within my database!`)
-                await message.channel.send(embed).then(message => message.delete(5000));
-                var auditLogEmbed = new Discord.RichEmbed()
-                  .setColor(0xff793b)
-                  .setTitle(`**Add**`)
-                  .setDescription(`**${message.author}** (${message.author.id})\nModified **${newNumber}** XP for ${userArray[i].toLowerCase()} (${userID})\n\n**Channel:**\n<#${message.channel.id}>`);
-                  bot.channels.get(promoLogs.id).send(auditLogEmbed);
+
 
 
                 var currentRankID = await rbx.getRankInGroup(groupID, userID)
@@ -195,6 +186,18 @@ bot.on('message', async message => {
                     .setDescription(`:warning: **${userArray[i]} isn't in the group!** :warning:`);
                     await message.channel.send(errorEmbed);
                 }else{
+                  var embed = new Discord.RichEmbed()
+                    .setColor(0x5aa9fe)
+                    .setTitle(`Insertion`)
+                    .setDescription(`Inserted and updated **\`${userArray[i].toLowerCase()}\`**'s profile within my database!`)
+                  await message.channel.send(embed).then(message => message.delete(5000));
+                  var auditLogEmbed = new Discord.RichEmbed()
+                    .setColor(0xff793b)
+                    .setTitle(`**Add**`)
+                    .setDescription(`**${message.author}** (${message.author.id})\nModified **${newNumber}** XP for ${userArray[i].toLowerCase()} (${userID})\n\n**Channel:**\n<#${message.channel.id}>`);
+                    bot.channels.get(promoLogs.id).send(auditLogEmbed);
+
+
                   var { body } = await snekfetch.get(`${fireBaseURL}/roles/${currentRankID}.json`);
                   var requiredXPAtCurrentRankID = body.requiredXP
 
