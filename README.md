@@ -1,7 +1,3 @@
-<h1> Random Poll </h1>
-<p>Information would be useful for a possible development of v3 including a web dashboard for ease of use rather than using Discord!</p>
-https://strawpoll.com/yxdf5ge2
-<hr>
 <h1> Information </h1>
 <p>Hey folks, this repository is a remake of my prior <a href="https://github.com/nishi7409/ClanLabs-OpenSourced">ClanLabs-OpenSourced</a> opensourced project.  Unlike the previous source code that users had to work with, this is by far an easier project to setup on your own machine--you can even integrate this into a Heroku <i>app</i> so you don't have to bother worrying about using your computer as a server or buying one from DigitalOcean or Vultr!  <strong>If you plan on doing the latter option, just follow the tutorial below.</strong>
 
